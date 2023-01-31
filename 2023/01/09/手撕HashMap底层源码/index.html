@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Hxf">
+    
+    <meta name="description" content="hxf的博客">
+    
+    
+    
+    
+    
+    
+    <title>手撕HashMap底层源码 | Kzh</title>
+    <link href="http://example.com" rel="prefetch" />
+
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+    
+<script src="/js/bootstrap.min.js"></script>
+
+    
+<script src="/js/aos.js"></script>
+
+    
+<script src="/js/highslide/highslide-full.min.js"></script>
+
+    
+<link rel="stylesheet" href="/js/highslide/highslide.css">
+
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="http://example.com">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">Kzh</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="">
+                    <a href="/tags">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="http://example.com">Kzh</a>
+        >
+        <span>手撕HashMap底层源码</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2023/01/09/%E6%89%8B%E6%92%95HashMap%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/">手撕HashMap底层源码</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2023-01-09
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2023/01/09/%E6%89%8B%E6%92%95HashMap%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/">手撕HashMap底层源码</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2023-01-09
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HashMap</span>&lt;K,V&gt; <span class="keyword">extends</span> <span class="title class_">AbstractMap</span>&lt;K,V&gt; <span class="keyword">implements</span> <span class="title class_">Map</span>&lt;K,V&gt;&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//初始化容量（必须是2的幂）</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DEFAULT_INITIAL_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br><span class="line">    <span class="comment">//最大容量</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MAXIMUM_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">30</span>;</span><br><span class="line">    <span class="comment">//默认的负载因子</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">float</span> <span class="variable">DEFAULT_LOAD_FACTOR</span> <span class="operator">=</span> <span class="number">0.75f</span>;</span><br><span class="line">    <span class="comment">//长度为0的数组</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Entry&lt;?,?&gt;[] EMPTY_TABLE = &#123;&#125;;</span><br><span class="line">    <span class="comment">//hash表/hash数组</span></span><br><span class="line">    <span class="keyword">transient</span> Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;<span class="comment">//new Entry[16];</span></span><br><span class="line">    <span class="comment">//映射关系的个数</span></span><br><span class="line">    <span class="keyword">transient</span> <span class="type">int</span> size;<span class="comment">//0</span></span><br><span class="line">    <span class="comment">//阈值（数组长度*负载因子）</span></span><br><span class="line">    <span class="type">int</span> threshold;<span class="comment">//12</span></span><br><span class="line">    <span class="comment">//负载因子</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">float</span> loadFactor;<span class="comment">//0.75f</span></span><br><span class="line">    <span class="comment">//操作数（记录添加和删除的次数）</span></span><br><span class="line">    <span class="keyword">transient</span> <span class="type">int</span> modCount;<span class="comment">//0</span></span><br><span class="line">    <span class="comment">//hash种子数</span></span><br><span class="line">    <span class="keyword">transient</span> <span class="type">int</span> <span class="variable">hashSeed</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">HashMap</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//initialCapacity - 16</span></span><br><span class="line">    <span class="comment">//loadFactor - 0.75f</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">HashMap</span><span class="params">(<span class="type">int</span> initialCapacity, <span class="type">float</span> loadFactor)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Illegal initial capacity: &quot;</span> +</span><br><span class="line">                                               initialCapacity);</span><br><span class="line">        <span class="keyword">if</span> (initialCapacity &gt; MAXIMUM_CAPACITY)</span><br><span class="line">            initialCapacity = MAXIMUM_CAPACITY;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//Float.isNaN(loadFactor)考虑到外界传入的数据：new Float(0.0/0.0)</span></span><br><span class="line">        <span class="keyword">if</span> (loadFactor &lt;= <span class="number">0</span> || Float.isNaN(loadFactor))<span class="comment">//NaN：Not a Number</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Illegal load factor: &quot;</span> +</span><br><span class="line">                                               loadFactor);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.loadFactor = loadFactor;</span><br><span class="line">        threshold = initialCapacity;</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//留给子类去重写的方法</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//key - null</span></span><br><span class="line">    <span class="comment">//value -&quot;写代码&quot;</span></span><br><span class="line">    <span class="keyword">public</span> V <span class="title function_">put</span><span class="params">(K key, V value)</span> &#123;</span><br><span class="line">        <span class="comment">//第一次添加元素时进入的判断</span></span><br><span class="line">        <span class="keyword">if</span> (table == EMPTY_TABLE) &#123;</span><br><span class="line">            <span class="comment">//1.计算阈值 -- 12</span></span><br><span class="line">            <span class="comment">//2.初始化hash数组</span></span><br><span class="line">            <span class="comment">//3.获取了hash种子数</span></span><br><span class="line">            inflateTable(threshold);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//判断key是否为null</span></span><br><span class="line">        <span class="keyword">if</span> (key == <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">return</span> putForNullKey(value);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//获取key的hash值</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">hash</span> <span class="operator">=</span> hash(key);</span><br><span class="line">        <span class="comment">//利用hash值计算在数组中的下标</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> indexFor(hash, table.length);</span><br><span class="line">        <span class="comment">//一旦进入到该循环，就说明hash碰撞了</span></span><br><span class="line">        <span class="comment">//e - 0x003</span></span><br><span class="line">        <span class="keyword">for</span> (Entry&lt;K,V&gt; e = table[i]; e != <span class="literal">null</span>; e = e.next) &#123;</span><br><span class="line">            Object k;</span><br><span class="line">            <span class="keyword">if</span> (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</span><br><span class="line">                <span class="comment">//oldValue - 赏月</span></span><br><span class="line">                <span class="type">V</span> <span class="variable">oldValue</span> <span class="operator">=</span> e.value;</span><br><span class="line">                e.value = value;</span><br><span class="line">                e.recordAccess(<span class="built_in">this</span>);</span><br><span class="line">                <span class="keyword">return</span> oldValue;<span class="comment">//返回被替换的值</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        modCount++;</span><br><span class="line">        addEntry(hash, key, value, i);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//value - 写代码</span></span><br><span class="line">    <span class="keyword">private</span> V <span class="title function_">putForNullKey</span><span class="params">(V value)</span> &#123;</span><br><span class="line">        <span class="comment">//e - 0x004</span></span><br><span class="line">        <span class="keyword">for</span> (Entry&lt;K,V&gt; e = table[<span class="number">0</span>]; e != <span class="literal">null</span>; e = e.next) &#123;</span><br><span class="line">            <span class="keyword">if</span> (e.key == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="comment">//oldValue - 打游戏</span></span><br><span class="line">                <span class="type">V</span> <span class="variable">oldValue</span> <span class="operator">=</span> e.value;</span><br><span class="line">                e.value = value;</span><br><span class="line">                e.recordAccess(<span class="built_in">this</span>);</span><br><span class="line">                <span class="keyword">return</span> oldValue;<span class="comment">//返回被替换的值</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        modCount++;</span><br><span class="line">        addEntry(<span class="number">0</span>, <span class="literal">null</span>, value, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//hash - 0</span></span><br><span class="line">    <span class="comment">//key - null</span></span><br><span class="line">    <span class="comment">//value - &quot;打游戏&quot;</span></span><br><span class="line">    <span class="comment">//bucketIndex - 0</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">addEntry</span><span class="params">(<span class="type">int</span> hash, K key, V value, <span class="type">int</span> bucketIndex)</span> &#123;</span><br><span class="line">        <span class="comment">//判断是否扩容</span></span><br><span class="line">        <span class="keyword">if</span> ((size &gt;= threshold) &amp;&amp; (<span class="literal">null</span> != table[bucketIndex])) &#123;</span><br><span class="line">            <span class="comment">//进入到扩容的方法</span></span><br><span class="line">            resize(<span class="number">2</span> * table.length);</span><br><span class="line">            <span class="comment">//重新计算key的hash值</span></span><br><span class="line">            hash = (<span class="literal">null</span> != key) ? hash(key) : <span class="number">0</span>;</span><br><span class="line">            <span class="comment">//重新利用hash值计算在数组中的下标</span></span><br><span class="line">            bucketIndex = indexFor(hash, table.length);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        createEntry(hash, key, value, bucketIndex);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//newCapacity - 32</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">resize</span><span class="params">(<span class="type">int</span> newCapacity)</span> &#123;</span><br><span class="line">        Entry[] oldTable = table;</span><br><span class="line">        <span class="type">int</span> <span class="variable">oldCapacity</span> <span class="operator">=</span> oldTable.length;</span><br><span class="line">        <span class="comment">//如果老的容量等于了数组的最大容量,直接将阈值变作为int类型的最大值，那么以后就不会扩容</span></span><br><span class="line">        <span class="keyword">if</span> (oldCapacity == MAXIMUM_CAPACITY) &#123;</span><br><span class="line">            threshold = Integer.MAX_VALUE;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Entry[] newTable = <span class="keyword">new</span> <span class="title class_">Entry</span>[newCapacity];<span class="comment">//new Entry[32];</span></span><br><span class="line">        <span class="comment">//将老的数组中的数据复制到新的数组中，并且重新计算hash种子数</span></span><br><span class="line">        transfer(newTable, initHashSeedAsNeeded(newCapacity));</span><br><span class="line">        <span class="comment">//将新数组的地址赋值给hash数组</span></span><br><span class="line">        table = newTable;</span><br><span class="line">       	<span class="comment">//重新计算阈值</span></span><br><span class="line">        threshold = (<span class="type">int</span>)Math.min(newCapacity * loadFactor, MAXIMUM_CAPACITY + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//多线程下可能会出现hash回环的问题</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">transfer</span><span class="params">(Entry[] newTable, <span class="type">boolean</span> rehash)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">newCapacity</span> <span class="operator">=</span> newTable.length;</span><br><span class="line">        <span class="keyword">for</span> (Entry&lt;K,V&gt; e : table) &#123;</span><br><span class="line">            <span class="keyword">while</span>(<span class="literal">null</span> != e) &#123;</span><br><span class="line">                Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">                <span class="keyword">if</span> (rehash) &#123;</span><br><span class="line">                    e.hash = <span class="literal">null</span> == e.key ? <span class="number">0</span> : hash(e.key);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> indexFor(e.hash, newCapacity);</span><br><span class="line">                e.next = newTable[i];</span><br><span class="line">                newTable[i] = e;</span><br><span class="line">                e = next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//hash - 0</span></span><br><span class="line">    <span class="comment">//key - null</span></span><br><span class="line">    <span class="comment">//value - &quot;打游戏&quot;</span></span><br><span class="line">    <span class="comment">//bucketIndex - 0</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">createEntry</span><span class="params">(<span class="type">int</span> hash, K key, V value, <span class="type">int</span> bucketIndex)</span> &#123;</span><br><span class="line">        <span class="comment">//e = null</span></span><br><span class="line">        Entry&lt;K,V&gt; e = table[bucketIndex];</span><br><span class="line">        <span class="comment">//创建新的Entry对象，并把Entry对象的地址赋值到hash数组中当前下标的位置上</span></span><br><span class="line">        table[bucketIndex] = <span class="keyword">new</span> <span class="title class_">Entry</span>&lt;&gt;(hash, key, value, e);<span class="comment">//0x004</span></span><br><span class="line">        size++;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">indexFor</span><span class="params">(<span class="type">int</span> h, <span class="type">int</span> length)</span> &#123;</span><br><span class="line">     	<span class="comment">//h 		- 0000,0000,0000,0000,0000,0000,0001,0100</span></span><br><span class="line">        <span class="comment">//length-1  - 0000,0000,0000,0000,0000,0000,0000,1111</span></span><br><span class="line">        <span class="comment">//			  0000,0000,0000,0000,0000,0000,0000,0100</span></span><br><span class="line">        <span class="keyword">return</span> h &amp; (length-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(Object k)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">h</span> <span class="operator">=</span> hashSeed;</span><br><span class="line">        <span class="comment">//判断种子数是否为0 并且 判断key是否为String类型</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> != h &amp;&amp; k <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">            <span class="comment">//获取到有hash种子数参与计算出的hash值</span></span><br><span class="line">            <span class="keyword">return</span> sun.misc.Hashing.stringHash32((String) k);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        h ^= k.hashCode();</span><br><span class="line"></span><br><span class="line">        h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);</span><br><span class="line">        <span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//toSize - 16</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">inflateTable</span><span class="params">(<span class="type">int</span> toSize)</span> &#123;</span><br><span class="line">        <span class="comment">// 传入toSize，获取到&gt;=toSize的2的幂的数字</span></span><br><span class="line">        <span class="comment">//capacity - 16</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">capacity</span> <span class="operator">=</span> roundUpToPowerOf2(toSize);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//threshold - 12</span></span><br><span class="line">        threshold = (<span class="type">int</span>) Math.min(capacity * loadFactor, MAXIMUM_CAPACITY + <span class="number">1</span>);</span><br><span class="line">        table = <span class="keyword">new</span> <span class="title class_">Entry</span>[capacity];</span><br><span class="line">        initHashSeedAsNeeded(capacity);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//根据容量计算出hash种子数</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">initHashSeedAsNeeded</span><span class="params">(<span class="type">int</span> capacity)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">currentAltHashing</span> <span class="operator">=</span> hashSeed != <span class="number">0</span>;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">useAltHashing</span> <span class="operator">=</span> sun.misc.VM.isBooted() &amp;&amp;</span><br><span class="line">                (capacity &gt;= Holder.ALTERNATIVE_HASHING_THRESHOLD);</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">switching</span> <span class="operator">=</span> currentAltHashing ^ useAltHashing;</span><br><span class="line">        <span class="keyword">if</span> (switching) &#123;</span><br><span class="line">            hashSeed = useAltHashing</span><br><span class="line">                ? sun.misc.Hashing.randomHashSeed(<span class="built_in">this</span>)</span><br><span class="line">                : <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> switching;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//number - 16</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">roundUpToPowerOf2</span><span class="params">(<span class="type">int</span> number)</span> &#123;</span><br><span class="line">        <span class="comment">//Integer.highestOneBit(数字)：将数字二进制中最高位的1保留下来，其余全部变为0</span></span><br><span class="line">        <span class="keyword">return</span> number &gt;= MAXIMUM_CAPACITY</span><br><span class="line">                ? MAXIMUM_CAPACITY</span><br><span class="line">                : (number &gt; <span class="number">1</span>) ? Integer.highestOneBit((number - <span class="number">1</span>) &lt;&lt; <span class="number">1</span>) : <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//映射关系类/节点类</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Entry</span>&lt;K,V&gt; <span class="keyword">implements</span> <span class="title class_">Map</span>.Entry&lt;K,V&gt; &#123;</span><br><span class="line">        <span class="keyword">final</span> K key; ----- 键</span><br><span class="line">        V value; --------- 值</span><br><span class="line">        Entry&lt;K,V&gt; next; - 下一个节点的内存地址</span><br><span class="line">        <span class="type">int</span> hash; -------- key的hash值</span><br><span class="line"></span><br><span class="line">        Entry(<span class="type">int</span> h, K k, V v, Entry&lt;K,V&gt; n) &#123;</span><br><span class="line">            value = v;</span><br><span class="line">            next = n;</span><br><span class="line">            key = k;</span><br><span class="line">            hash = h;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">HashMap&lt;Student, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">		</span><br><span class="line">map.put(<span class="keyword">new</span> <span class="title class_">Student</span>(<span class="string">&quot;李博&quot;</span>, <span class="string">&#x27;男&#x27;</span>, <span class="number">23</span>, <span class="string">&quot;2213&quot;</span>, <span class="string">&quot;001&quot;</span>), <span class="string">&quot;品茗&quot;</span>);</span><br><span class="line">map.put(<span class="keyword">new</span> <span class="title class_">Student</span>(<span class="string">&quot;马小龙&quot;</span>, <span class="string">&#x27;男&#x27;</span>, <span class="number">24</span>, <span class="string">&quot;2213&quot;</span>, <span class="string">&quot;002&quot;</span>), <span class="string">&quot;焚香&quot;</span>);</span><br><span class="line">map.put(<span class="keyword">new</span> <span class="title class_">Student</span>(<span class="string">&quot;何周钰&quot;</span>, <span class="string">&#x27;女&#x27;</span>, <span class="number">18</span>, <span class="string">&quot;2213&quot;</span>, <span class="string">&quot;003&quot;</span>), <span class="string">&quot;赏月&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">put1</span> <span class="operator">=</span> map.put(<span class="keyword">new</span> <span class="title class_">Student</span>(<span class="string">&quot;何周钰&quot;</span>, <span class="string">&#x27;女&#x27;</span>, <span class="number">18</span>, <span class="string">&quot;2213&quot;</span>, <span class="string">&quot;003&quot;</span>), <span class="string">&quot;听雨&quot;</span>);</span><br><span class="line">System.out.println(put1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">map.put(<span class="literal">null</span>, <span class="string">&quot;打游戏&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">put2</span> <span class="operator">=</span> map.put(<span class="literal">null</span>, <span class="string">&quot;写代码&quot;</span>);</span><br><span class="line">System.out.println(put2);<span class="comment">//打游戏</span></span><br><span class="line"></span><br><span class="line">Set&lt;Entry&lt;Student,String&gt;&gt; entrySet = map.entrySet();</span><br><span class="line"><span class="keyword">for</span> (Entry&lt;Student, String&gt; entry : entrySet) &#123;</span><br><span class="line">    System.out.println(entry.getKey() + <span class="string">&quot; -- &quot;</span> + entry.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ol>
+<li><p>JDK1.7版本的HashMap数据结构是什么？</p>
+<p>一维数组+单向链表</p>
+</li>
+<li><p>默认的初始化容量是多少？</p>
+<p>1&lt;&lt;4 – 16</p>
+</li>
+<li><p>容量为什么必须是2的幂？</p>
+<p>因为如果不为2的幂，长度-1会造成二进制中某一位为0，就会导致通过key的hash值计算出数组中的下标分布不均匀</p>
+</li>
+<li><p>最大容量是多少？</p>
+<p>1&lt;&lt;30 – 1073741824</p>
+</li>
+<li><p>最大容量为什么是1&lt;&lt;30?</p>
+<p>因为容量是int类型的值，并且容量必须是2的幂，1&lt;&lt;30是int类型取值范围内最大的2的幂的数字，所以最大容量就是1&lt;&lt;30</p>
+</li>
+<li><p>默认的负载因子是多少？其作用是什么？</p>
+<p>0.75f</p>
+<p>作用：控制何时扩容，因为阈值(扩容值)&#x3D;容量*负载因子</p>
+</li>
+<li><p>默认的负载因子为什么是0.75？</p>
+<p>因为取得了时间和空间的平衡</p>
+<p>如果负载因子过小（比如0.1），利用时间，牺牲空间</p>
+<p>如果负载因子过大（比如1.0），利用空间，牺牲时间</p>
+</li>
+<li><p>什么叫做hash冲突？</p>
+<p>多个对象的hash值相同，导致在数组中的下标也是相同的，这就是hash冲突</p>
+<p>使用HashMap应该尽量避免hash冲突，因为效率低下</p>
+</li>
+<li><p>怎么提高HashMap的运行效率呢？</p>
+<p>key所属的类重写hashCode()和equals()，减少hash碰撞</p>
+</li>
+<li><p>HashMap何时扩容？</p>
+<p>当前元素个数大于等于阈值，并且添加的当前下标上的元素不为null</p>
+</li>
+<li><p>HashMap存放nullkey的位置在哪？</p>
+<p>存放在hash表的下标为0的位置</p>
+</li>
+<li><p>HashMap的扩容机制是什么？</p>
+<p>是原来数组的长度的两倍</p>
+</li>
+<li><p>什么是Hash回环？</p>
+<p>在多线程的情况下</p>
+<p>一个线程在不断的添加元素，导致了扩容，扩容还没有完成（局部单向链表的回环）</p>
+<p>另一个线程抢到CPU资源后，遍历数据，就会出现Hash回环的问题</p>
+<p>如果出现Hash回环，HashMap不应该背锅，因为HashMap明确表示该实现不是一个线程安全的类，如果多线程下使用Map，应该使用线程安全的Map（ConcurrentHashMsap）</p>
+</li>
+<li><p>JDK1.7版本的HashMap和JDK1.8版本的HashMap有什么区别？</p>
+<p>JDK1.7版本的HashMap的数据结构是：一维数组+单向链表</p>
+<p>JDK1.8版本的HashMap的数据结构是：一维数组+单向链表  —- 单向链表长度&gt;8  —-&gt;单向链表+二叉树</p>
+<p>JDK1.7版本的HashMap的插入方式是：头插法</p>
+<p>JDK1.8版本的HashMap的插入方式是：尾插法</p>
+<p>JDK1.8版本计算hash值更加简便：int h &#x3D; key.hashCode()) ^ (h &gt;&gt;&gt; 16），二进制高16位^低十六位</p>
+</li>
+<li><p>JDK1.8版本的HashMap数据结果会发生改变？</p>
+<p>一维数组+单向链表  —- 单向链表长度&gt;8  —-&gt;单向链表+二叉树</p>
+<p>因为单向链表的查询效率较低，二叉树的效率高</p>
+</li>
+<li><p>JDK1.8版本的HashMap单向链表长度为什么大于8后会将单向链表转换成二叉树？</p>
+<p>因为泊松分布</p>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>为什么要看源码？</p>
+<ol>
+<li>面试的差异性</li>
+<li>通过看底层源码可以学习到很多编程思维</li>
+<li>看懂源码后，对该集合的运用会更加得心应手</li>
+</ol>
+</blockquote>
+
+    </div>
+</article>
+
+
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Hxf
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>hxf的博客</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/31/get%E5%92%8Cpost%E7%9A%84%E5%8C%BA%E5%88%AB/">get和post的区别</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/11/%E6%89%8B%E6%92%95TreeSet%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/">手撕TreeSet底层源码</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/10/%E6%89%8B%E6%92%95TreeMap%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/">手撕TreeMap底层源码</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/09/%E6%89%8B%E6%92%95HashMap%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/">手撕HashMap底层源码</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/09/servlet/">servlet</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/08/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/">自定义函数</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/08/%E7%BA%A6%E6%9D%9F/">约束</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/08/%E9%A2%84%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/">预定义函数</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/08/%E7%B4%A2%E5%BC%95/">索引</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/08/%E8%A7%86%E5%9B%BE/">视图</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/03/CBLob%E4%BD%BF%E7%94%A8/">CBLog的使用</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/05/JDBC%E5%B0%81%E8%A3%85%E5%A2%9E%E5%88%A0%E6%94%B9/">JDBC封装增删改</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/31/get%E5%92%8Cpost%E7%9A%84%E5%8C%BA%E5%88%AB/">get和post的区别</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/08/%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B/">存储过程</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/09/%E6%89%8B%E6%92%95HashMap%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/">手撕HashMap底层源码</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/04/%E6%B7%B1%E5%85%A5JDBC%E4%BA%8B%E5%8A%A12/">深入JDBC事务2</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/08/%E9%A2%84%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/">预定义函数</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/08/%E8%A7%A6%E5%8F%91%E5%99%A8/">触发器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/08/%E8%A7%86%E5%9B%BE/">视图</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/01/04/ForkJoin%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E6%A1%86%E6%9E%B6--1/"></a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2023/01/09/%E6%89%8B%E6%92%95HashMap%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2023/01/09/%E6%89%8B%E6%92%95HashMap%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2023/01/09/%E6%89%8B%E6%92%95HashMap%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+</div>
+                
+                
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://kdays.net/days/" target="_blank">KDays Forum</a>
+    </li>
+    
+    <li>
+        <a href="http://www.gal123.com/" target="_blank">绅士导航♂</a>
+    </li>
+    
+    <li>
+        <a href="http://www.moe123.com/" target="_blank">萌导航</a>
+    </li>
+    
+</div>
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/ZEROKISEKI/" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://coding.net/u/SORA1" target="_blank">Coding</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/aonosora/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Hxf Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+</body>
+
+<script src="/js/activate-power-mode.js"></script>
+
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+
+
+
+</html>
