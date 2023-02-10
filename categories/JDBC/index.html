@@ -45,6 +45,8 @@
 
 
     
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
 
 
 
@@ -123,28 +125,6 @@
       <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
       
       <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言板</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>友情链接</span>
     </a>
     
   </li>
@@ -229,28 +209,6 @@
 			    <i class="fa-fw fas fa-user-circle"></i>
 			
 			关于
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言板
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			友情链接
 		</a>
           
         </li>
@@ -349,9 +307,11 @@
                     var typed = new Typed("#subtitle", {
                         strings: [ 
                             
-                                "从来没有真正的绝境, 只有心灵的迷途",
+                                "成功与失败的分别在于适应能力的高低",
                             
-                                "Never really desperate, only the lost of the soul",
+                                "谎言不会伤人，真相才是快刀",
+                            
+                                "我曾触摸过星辰，曾见证过数千个太阳的光芒，如今我被这优雅蒙蔽了双眼，所以，我的目标，怎可能，不黑暗?",
                             
                         ],
                         startDelay: 300,
@@ -392,38 +352,20 @@
                 
                 
                 
-                <a href="/categories/JDBC/" title="JDBC: 6">
+                <a href="/categories/JDBC/" title="JDBC: 4">
                     <span class="chip center-align waves-effect waves-light
                              chip-active "
                             style="background-color: #F9EBEA;">JDBC
-                        <span class="tag-length">6</span>
+                        <span class="tag-length">4</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" title="数据库: 9">
+                <a href="/categories/JavaWeb/" title="JavaWeb: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F5EEF8;">数据库
-                        <span class="tag-length">9</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/JavaWeb/" title="JavaWeb: 3">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #D5F5E3;">JavaWeb
-                        <span class="tag-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" title="源码分析: 3">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #E8F8F5;">源码分析
-                        <span class="tag-length">3</span>
+                            style="background-color: #F5EEF8;">JavaWeb
+                        <span class="tag-length">2</span>
                     </span>
                 </a>
                 
@@ -477,6 +419,14 @@ public class Studen
                     </div>
 
                     
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Java/">
+                            <span class="chip bg-color">Java</span>
+                        </a>
+                        
+                    </div>
+                    
                 </div>
             </div>
             
@@ -518,6 +468,14 @@ public class Studen
                     </div>
 
                     
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Java/">
+                            <span class="chip bg-color">Java</span>
+                        </a>
+                        
+                    </div>
+                    
                 </div>
             </div>
             
@@ -556,51 +514,13 @@ public class Studen
                     </div>
 
                     
-                </div>
-            </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/01/04/shen-ru-jdbc-shi-wu-1/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="深入JDBC事务1">
-                            
-                            <span class="card-title">深入JDBC事务1</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                深入JDBC中事务
-需求：模拟银行转账
-分析：
-单独调用存钱、取钱 – 两个Connection对象
-转账 – 一个Connection对象（因为我们需要将两个SQL命令放在同一个事务中，并提交）
-
-
-
-普通存钱取钱只需要分别调用save(
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-04
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/JDBC/" class="post-category">
-                                    JDBC
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Java/">
+                            <span class="chip bg-color">Java</span>
+                        </a>
+                        
                     </div>
-
                     
                 </div>
             </div>
@@ -647,43 +567,13 @@ xxx
                     </div>
 
                     
-                </div>
-            </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/01/03/cblob-shi-yong/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="CBLog的使用">
-                            
-                            <span class="card-title">CBLog的使用</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                使用JDBC进行cblob类型文件在MySQL的存入和取出Clob：数据库的字段类型是Text、longText，该字段上可以存储长文本数据Blob：数据库字段类型是blob，LongBlob，该字段可以存储二进制的数据1.创建cb_lob
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-03
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/JDBC/" class="post-category">
-                                    JDBC
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Java/">
+                            <span class="chip bg-color">Java</span>
+                        </a>
+                        
                     </div>
-
                     
                 </div>
             </div>
@@ -731,11 +621,11 @@ xxx
     
     <div class="row">
         <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
+                   server="tencent"
                    type="playlist"
-                   id="503838841"
+                   id="884704676"
                    fixed='true'
-                   autoplay='false'
+                   autoplay='true'
                    theme='#42b983'
                    loop='all'
                    order='random'
@@ -764,6 +654,9 @@ xxx
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             
             <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">14.1k</span>
             
             
             
